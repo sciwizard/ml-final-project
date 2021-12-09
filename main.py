@@ -18,10 +18,26 @@ print(x_train.shape)
 labels = ["T-shirt/top", "Trouser", "Pullover", "Dress", "Coat", "Sandal", "Shirt", "Sneaker", "Bag", "Ankle boot"]
 
 svm = True
+accuracy = []
+x_values = []
 
 if svm:
     for i in range(6):
-        svm_classifier((x_train, y_train), (x_test, y_test), labels, kernel='rbf', num_samples=(i+1) * 10000)
+        num_samples = (i+1) * 10000
+        accuracy += svm_classifier((x_train, y_train), (x_test, y_test), labels, kernel='rbf', num_samples=num_samples)
+        x_values += [num_samples]
+
+    x_values = np.arange(1, len(accuracy)+1)
+    plt.plot(x_values, accuracy)
+    plt.title('SVM Accuracy')
+    plt.ylabel('Accuracy')
+    plt.xlabel('# training samples')
+    plt.show()
+
 else:
     for i in range(4):
         cnn_classifier((x_train, y_train), (x_test, y_test), labels, batch_size=10**i)
+
+
+
+
