@@ -1,6 +1,5 @@
 import tensorflow as tf
 import matplotlib.pyplot as plt
-from tqdm import trange
 import numpy as np
 
 from svm import svm_classifier
