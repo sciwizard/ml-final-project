@@ -40,7 +40,7 @@ def cnn_classifier(train_data, test_data, labels, batch_size=100):
     Dense(10, activation='softmax')])
 
     tensor_board = TensorBoard(
-        log_dir = r'logs\{}'.format('layers_2_lr_0_0001'),
+        log_dir = r'logs/{}'.format('layers_2_lr_0_0001'),
         write_graph=True,
         write_grads = True,
         histogram_freq = 1,
