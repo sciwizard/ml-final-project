@@ -10,39 +10,6 @@ import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 # print(tf.__version__)
 
-train_df = pd.read_csv(r'C:\Users\Ajay Babu Gorantla\OneDrive\Documents\Ajay\PSU\Fall_2021\Machine_Learning\Assignments\Project\dataset\train.csv')
-test_df = pd.read_csv(r'C:\Users\Ajay Babu Gorantla\OneDrive\Documents\Ajay\PSU\Fall_2021\Machine_Learning\Assignments\Project\dataset\test.csv')
-
-train_data = np.array(train_df, dtype='float32')
-test_data = np.array(test_df, dtype='float32')
-
-#Splitting the dataset into X(input --> pixel values) and Y(output --> class labels) arrays
-x_train = train_data[:, 1:] / 255
-y_train = train_data[:, 0]
-
-x_test = test_data[:, 1:] / 255
-y_test = test_data[:, 0]
-
-x_train, x_validate, y_train, y_validate  = train_test_split(x_train, y_train, test_size=0.2, random_state=42)
-
-# test_image = x_train[50, :].reshape((28,28))
-# plt.imshow(test_image)
-# plt.show()
-
-#Building a CNN
-
-image_rows = 28
-image_cols = 28
-batch_size = 100
-image_shape = (image_rows, image_cols, 1)
-
-x_train = x_train.reshape(x_train.shape[0], *image_shape)
-x_test = x_test.reshape(x_test.shape[0], *image_shape)
-x_validate = x_validate.reshape(x_validate.shape[0], *image_shape)
-
-# print('x_train shape: {}'.format(x_train.shape))
-# print('x_test shape: {}'.format(x_test.shape))
-# print('x_validate shape: {}'.format(x_validate.shape))
 
 def preprocess_data():
 
@@ -79,6 +46,10 @@ def train_cnn(x_train, x_validate, x_test, y_test, y_train, y_validate):
     x_train = x_train.reshape(x_train.shape[0], *image_shape)
     x_test = x_test.reshape(x_test.shape[0], *image_shape)
     x_validate = x_validate.reshape(x_validate.shape[0], *image_shape)
+
+    # print('x_train shape: {}'.format(x_train.shape))
+    # print('x_test shape: {}'.format(x_test.shape))
+    # print('x_validate shape: {}'.format(x_validate.shape))
 
 
     model= Sequential([
