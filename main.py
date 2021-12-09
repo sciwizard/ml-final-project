@@ -7,17 +7,14 @@ import sys
 from svm import svm_classifier
 from cnn import cnn_classifier
 
+
 def main():
-    is_svm = True
-    kernel = 'rbf'
     if len(sys.argv) < 3:
-        print("usage: python main.py <CNN/SVM> [kernel]")
+        print("usage: python main.py <CNN/SVM> <SINGLE/FULL>")
         exit(-1)
-    
-    print(len(sys.argv))
 
     is_svm = True if sys.argv[1].upper() == "SVM" else False
-    kernel = sys.argv[2] if is_svm else kernel        
+    full_svm_test = True if sys.argv[2].upper() == "FULL" else False
 
     # Train/test data is stored in a tuple of (data, labels)
     (x_train, y_train), (x_test, y_test) = tf.keras.datasets.fashion_mnist.load_data()
@@ -31,43 +28,38 @@ def main():
     # Translations from numeric label (index in 'labels' array) to English item name
     labels = ["T-shirt/top", "Trouser", "Pullover", "Dress", "Coat", "Sandal", "Shirt", "Sneaker", "Bag", "Ankle boot"]
 
+    accuracy = []
+    x_values = []
+
     if is_svm:
-        for i in range(6):
-            svm_classifier((x_train, y_train), (x_test, y_test), labels, kernel, num_samples=(i+1) * 10000)
+        if full_svm_test:
+            for kernel in ('linear', 'sigmoid', 'rbf', 'poly'):
+                for i in range(6):
+                    num_samples = (i + 1) * 10000
+                    accuracy += svm_classifier((x_train, y_train), (x_test, y_test), labels, kernel=kernel,
+                                               num_samples=num_samples)
+                    x_values += [num_samples]
+                plt.plot(x_values, accuracy, label=kernel)
+            accuracy.clear()
+            x_values.clear()
+        else:
+            for i in range(6):
+                num_samples = (i + 1) * 10000
+                accuracy += svm_classifier((x_train, y_train), (x_test, y_test), labels, kernel='rbf',
+                                           num_samples=num_samples)
+                x_values += [num_samples]
+            plt.plot(x_values, accuracy)
+
+        plt.title('SVM Accuracy')
+        plt.ylabel('Accuracy')
+        plt.xlabel('# training samples')
+        plt.legend()
+        plt.show()
+
     else:
         for i in range(4):
-            cnn_classifier((x_train, y_train), (x_test, y_test), labels, batch_size=10**i)
+            cnn_classifier((x_train, y_train), (x_test, y_test), labels, batch_size=10 ** i)
 
-svm = True
-full_svm_test = True
-accuracy = []
-x_values = []
-
-if svm:
-    if full_svm_test:
-        for kernel in ('linear', 'rbf', 'sigmoid'):
-            for i in range(6):
-                num_samples = (i+1) * 10000
-                accuracy += svm_classifier((x_train, y_train), (x_test, y_test), labels, kernel=kernel, num_samples=num_samples)
-                x_values += [num_samples]
-            plt.plot(x_values, accuracy, label=kernel)
-        accuracy = []
-        x_values = []
-    else:
-        for i in range(6):
-            num_samples = (i+1) * 10000
-            accuracy += svm_classifier((x_train, y_train), (x_test, y_test), labels, kernel='rbf', num_samples=num_samples)
-            x_values += [num_samples]
-        plt.plot(x_values, accuracy)
-
-    plt.title('SVM Accuracy')
-    plt.ylabel('Accuracy')
-    plt.xlabel('# training samples')
-    plt.show()
-
-else:
-    for i in range(4):
-        cnn_classifier((x_train, y_train), (x_test, y_test), labels, batch_size=10**i)
 
 if __name__ == "__main__":
     main()
