@@ -1,5 +1,6 @@
 import tensorflow as tf
 import matplotlib.pyplot as plt
+from tqdm import trange
 import numpy as np
 
 from svm import svm_classifier
@@ -18,17 +19,27 @@ print(x_train.shape)
 labels = ["T-shirt/top", "Trouser", "Pullover", "Dress", "Coat", "Sandal", "Shirt", "Sneaker", "Bag", "Ankle boot"]
 
 svm = True
+full_svm_test = True
 accuracy = []
 x_values = []
 
 if svm:
-    for i in range(6):
-        num_samples = (i+1) * 10000
-        accuracy += svm_classifier((x_train, y_train), (x_test, y_test), labels, kernel='rbf', num_samples=num_samples)
-        x_values += [num_samples]
+    if full_svm_test:
+        for kernel in ('linear', 'rbf', 'sigmoid'):
+            for i in range(6):
+                num_samples = (i+1) * 10000
+                accuracy += svm_classifier((x_train, y_train), (x_test, y_test), labels, kernel=kernel, num_samples=num_samples)
+                x_values += [num_samples]
+            plt.plot(x_values, accuracy, label=kernel)
+        accuracy = []
+        x_values = []
+    else:
+        for i in range(6):
+            num_samples = (i+1) * 10000
+            accuracy += svm_classifier((x_train, y_train), (x_test, y_test), labels, kernel='rbf', num_samples=num_samples)
+            x_values += [num_samples]
+        plt.plot(x_values, accuracy)
 
-    x_values = np.arange(1, len(accuracy)+1)
-    plt.plot(x_values, accuracy)
     plt.title('SVM Accuracy')
     plt.ylabel('Accuracy')
     plt.xlabel('# training samples')
