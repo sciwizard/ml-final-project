@@ -1,3 +1,46 @@
 ml-final-venv/
 .vscode
 __pycache__
+
+# LaTeX auxiliary files
+*.aux
+*.lof
+*.log
+*.lot
+*.fls
+*.out
+*.toc
+*.fmt
+
+# Build tool auxiliary files
+*.fdb_latexmk
+*.synctex
+*.synctex.gz
+*.synctex.gz(busy)
+*.pdfsync
+
+# Generated documents
+*.dvi
+*.pdf
+*.1
+
+# Bundle
+.bundle
+vendor/*
+
+# Temporaly
+tmp/*
+texdoc-*.zip
+
+# Cache
+script/Data.tlpdb.lua
+
+# local
+*.vimrc
+output/*
+
+    © 2021 GitHub, Inc.
+
+    Terms
+    Privacy
+    Se
