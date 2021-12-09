@@ -38,6 +38,36 @@ def main():
         for i in range(4):
             cnn_classifier((x_train, y_train), (x_test, y_test), labels, batch_size=10**i)
 
+svm = True
+full_svm_test = True
+accuracy = []
+x_values = []
+
+if svm:
+    if full_svm_test:
+        for kernel in ('linear', 'rbf', 'sigmoid'):
+            for i in range(6):
+                num_samples = (i+1) * 10000
+                accuracy += svm_classifier((x_train, y_train), (x_test, y_test), labels, kernel=kernel, num_samples=num_samples)
+                x_values += [num_samples]
+            plt.plot(x_values, accuracy, label=kernel)
+        accuracy = []
+        x_values = []
+    else:
+        for i in range(6):
+            num_samples = (i+1) * 10000
+            accuracy += svm_classifier((x_train, y_train), (x_test, y_test), labels, kernel='rbf', num_samples=num_samples)
+            x_values += [num_samples]
+        plt.plot(x_values, accuracy)
+
+    plt.title('SVM Accuracy')
+    plt.ylabel('Accuracy')
+    plt.xlabel('# training samples')
+    plt.show()
+
+else:
+    for i in range(4):
+        cnn_classifier((x_train, y_train), (x_test, y_test), labels, batch_size=10**i)
 
 if __name__ == "__main__":
     main()
