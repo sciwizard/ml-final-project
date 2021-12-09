@@ -6,15 +6,15 @@ from sklearn.svm import SVC
 import numpy as np
 import matplotlib.pyplot as plt
 
-def svm_classifier(train_tuple, test_tuple, labels_list):
+def svm_classifier(train_tuple, test_tuple, labels, kernel='rbf', num_samples=100):
     (x_train, y_train) = train_tuple
     (x_test, y_test) = test_tuple
-    labels = labels_list
+    x_train = x_train.reshape(x_train.shape[0], x_train.shape[1] * x_train.shape[2])
+    x_test = x_test.reshape(x_test.shape[0], x_test.shape[1] * x_test.shape[2])
     
-    clf = make_pipeline(StandardScaler(), SVC(gamma='auto'))
-
-    print("Training model...")
-    clf.fit(x_train[:100], y_train[:100])
+    print('training... ', end='')
+    clf = make_pipeline(StandardScaler(), SVC(gamma='auto', kernel=kernel))
+    clf.fit(x_train[:num_samples], y_train[:num_samples])
 
     ## Sanity check, picks a random test datum and classifies it ##
     #sample = np.random.randint(y_test.shape[0])
@@ -24,7 +24,7 @@ def svm_classifier(train_tuple, test_tuple, labels_list):
     #print("predicted {}, actual is {}".format(labels[prediction], labels[y_test[sample]]))
 
     # Calculate test accuracy
-    print("Calculating model accuracy...")
+    print("calculating accuracy...", end='')
     correct = 0
     for row in range(y_test.shape[0]):
         prediction = clf.predict([x_test[row]])[0]
@@ -32,5 +32,5 @@ def svm_classifier(train_tuple, test_tuple, labels_list):
         if prediction == label:
             correct += 1
     accuracy = correct / y_test.shape[0]
-    print("\nAccuracy: {}%".format(100 * accuracy))
+    print("\nModel with kernel={}, num training data={}, accuracy={}".format(kernel, num_samples, 100 * accuracy))
 

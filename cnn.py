@@ -5,46 +5,24 @@ from tensorflow.keras.optimizers import SGD, Adam
 from keras.callbacks import TensorBoard
 
 import numpy as np
-import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
-# print(tf.__version__)
 
-
-def preprocess_data():
-
-    train_df = pd.read_csv(r'C:\Users\Ajay Babu Gorantla\OneDrive\Documents\Ajay\PSU\Fall_2021\Machine_Learning\Assignments\Project\dataset\train.csv')
-    test_df = pd.read_csv(r'C:\Users\Ajay Babu Gorantla\OneDrive\Documents\Ajay\PSU\Fall_2021\Machine_Learning\Assignments\Project\dataset\test.csv')
-
-    train_data = np.array(train_df, dtype='float32')
-    test_data = np.array(test_df, dtype='float32')
-
-    #Splitting the dataset into X(input --> pixel values) and Y(output --> class labels) arrays
-    x_train = train_data[:, 1:] / 255
-    y_train = train_data[:, 0]
-
-    x_test = test_data[:, 1:] / 255
-    y_test = test_data[:, 0]
-
-    x_train, x_validate, y_train, y_validate  = train_test_split(x_train, y_train, test_size=0.2, random_state=42)
-
-    # test_image = x_train[50, :].reshape((28,28))
-    # plt.imshow(test_image)
-    # plt.show()
-
-    return x_train, x_validate, x_test, y_test, y_train, y_validate
-
-def train_cnn(x_train, x_validate, x_test, y_test, y_train, y_validate):
+def cnn_classifier(train_data, test_data, labels, batch_size=100):
+    (x_train, y_train) = train_data
+    (x_test, y_test) = test_data
 
     #Building a CNN
 
     image_rows = 28
     image_cols = 28
-    batch_size = 100
     image_shape = (image_rows, image_cols, 1)
 
     x_train = x_train.reshape(x_train.shape[0], *image_shape)
     x_test = x_test.reshape(x_test.shape[0], *image_shape)
+
+    x_train, x_validate, y_train, y_validate = train_test_split(x_train, y_train, test_size=0.2, random_state=42)
+
     x_validate = x_validate.reshape(x_validate.shape[0], *image_shape)
 
     # print('x_train shape: {}'.format(x_train.shape))
@@ -89,15 +67,3 @@ def train_cnn(x_train, x_validate, x_test, y_test, y_train, y_validate):
 
     print('    test loss : {:.4f}'.format(evalulation_score[0]))
     print('test accuracy : {:.4f}'.format(evalulation_score[1]))
-
-
-def main():
-
-    x_train, x_validate, x_test, y_test, y_train, y_validate = preprocess_data()
-
-    train_cnn(x_train, x_validate, x_test, y_test, y_train, y_validate)
-
-
-
-if __name__ == "__main__":
-    main()
