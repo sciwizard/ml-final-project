@@ -42,6 +42,7 @@ def svm_classifier(train_tuple, test_tuple, labels, kernel='rbf', num_samples=10
     plt.title('SVM Confusion Matrix')
     plt.xticks(np.arange(10))
     plt.yticks(np.arange(10))
+    plt.show()
 
     print("\nModel with kernel={}, num training data={}, accuracy={}".format(kernel, num_samples, 100 * accuracy))
     return [accuracy]
