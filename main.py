@@ -89,8 +89,8 @@ def main():
 
     if confusion:
         cnn_accuracy += [cnn_classifier((x_train, y_train), (x_test, y_test), labels, split=.2)]
-        # svm_accuracy += [svm_classifier((x_train, y_train), (x_test, y_test), labels, kernel='rbf',
-        #                                 num_samples=48000)]
+        svm_accuracy += [svm_classifier((x_train, y_train), (x_test, y_test), labels, kernel='rbf',
+                                        num_samples=48000)]
 
 
         plt.title('Best CNN vs SVN Accuracy')
