@@ -68,4 +68,4 @@ def cnn_classifier(train_data, test_data, labels, batch_size=100, split=0.2):
     print('    test loss : {:.4f}'.format(evalulation_score[0]))
     print('test accuracy : {:.4f}'.format(evalulation_score[1]))
 
-    return evalulation_score[1]
+    return [evalulation_score[1]]
