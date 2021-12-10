@@ -62,6 +62,9 @@ def cnn_classifier(train_data, test_data, labels, batch_size=100, split=0.2):
     model.fit(x_train, y_train, batch_size = batch_size, epochs = 10, 
                 verbose = 1, validation_data=(x_validate, y_validate),
                 callbacks = tensor_board)
+    y_pred = model.predict_classes(test_data)
+    con_mat = tf.math.confusion_matrix(labels=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9], predictions=y_pred).numpy()
+    print(con_mat)
 
     evalulation_score = model.evaluate(x_validate, y_validate, verbose = 0)
 

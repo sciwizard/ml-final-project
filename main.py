@@ -10,12 +10,13 @@ from cnn import cnn_classifier
 
 def main():
     if len(sys.argv) < 3:
-        print("usage: python main.py <CNN/SVM/COMP> <SINGLE/FULL>")
+        print("usage: python main.py <CNN/SVM/COMP/CONFUSION> <SINGLE/FULL>")
         exit(-1)
 
     is_svm = False
     is_cnn = False
     compare = False
+    confusion = False
     full_svm_test = False
 
     arg1 = sys.argv[1].upper()
@@ -26,6 +27,8 @@ def main():
         compare = True
     elif arg1 == "CNN":
         is_cnn = True
+    elif arg1 == "CONFUSION":
+        confusion = True
     if arg2 == "FULL":
         full_svm_test = True
 
@@ -73,15 +76,22 @@ def main():
         # for i in range(1):
         cnn_classifier((x_train, y_train), (x_test, y_test), labels)
 
+    svm_accuracy = []
+    cnn_accuracy = []
     if compare:
-        svm_accuracy = []
-        cnn_accuracy = []
         x_values = [6000, 12000, 24000, 36000, 48000]
-        for sample_size in x_values:
-            svm_accuracy += svm_classifier((x_train, y_train), (x_test, y_test), labels, kernel='rbf',
-                                           num_samples=sample_size)
         for split_size in (.9, .8, .6, .4, .2):
-            cnn_accuracy += cnn_classifier((x_train, y_train), (x_test, y_test), labels, split=split_size)
+            cnn_accuracy += [cnn_classifier((x_train, y_train), (x_test, y_test), labels, split=split_size)]
+
+        for sample_size in x_values:
+            svm_accuracy += [svm_classifier((x_train, y_train), (x_test, y_test), labels, kernel='rbf',
+                                           num_samples=sample_size)]
+
+    if confusion:
+        cnn_accuracy += [cnn_classifier((x_train, y_train), (x_test, y_test), labels, split=.2)]
+        # svm_accuracy += [svm_classifier((x_train, y_train), (x_test, y_test), labels, kernel='rbf',
+        #                                 num_samples=48000)]
+
 
         plt.title('Best CNN vs SVN Accuracy')
         plt.ylabel('Accuracy')

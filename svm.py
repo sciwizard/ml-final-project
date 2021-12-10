@@ -6,6 +6,8 @@ from sklearn.svm import SVC
 import numpy as np
 import matplotlib.pyplot as plt
 
+hot_confusion = np.identity(10)
+confusion = np.zeros((10, 10))
 
 def svm_classifier(train_tuple, test_tuple, labels, kernel='rbf', num_samples=100):
     (x_train, y_train) = train_tuple
@@ -29,9 +31,11 @@ def svm_classifier(train_tuple, test_tuple, labels, kernel='rbf', num_samples=10
     correct = 0
     for row in range(y_test.shape[0]):
         prediction = clf.predict([x_test[row]])[0]
+        confusion[y_test[row]] += hot_confusion[prediction]
         label = y_test[row]
         if prediction == label:
             correct += 1
     accuracy = correct / y_test.shape[0]
+
     print("\nModel with kernel={}, num training data={}, accuracy={}".format(kernel, num_samples, 100 * accuracy))
     return [accuracy]
