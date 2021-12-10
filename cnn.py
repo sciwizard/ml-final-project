@@ -60,7 +60,7 @@ def cnn_classifier(train_data, test_data, labels, batch_size=100, split=0.2):
     #     metrics=['accuracy']
     # )
 
-    model.fit(x_train, y_train, batch_size = batch_size, epochs = 1,
+    model.fit(x_train, y_train, batch_size = batch_size, epochs = 10,
                 verbose = 1, validation_data=(x_validate, y_validate),
                 callbacks = tensor_board)
     y_pred = model.predict(test_data)
