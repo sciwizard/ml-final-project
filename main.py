@@ -14,7 +14,7 @@ def main():
         exit(-1)
 
     is_svm = True if sys.argv[1].upper() == "SVM" else False
-    full_svm_test = True if sys.argv[2].upper() == "FULL" else False
+    full_svm_test = True if (sys.argv[2].upper() and is_svm) == "FULL" else False
 
     # Train/test data is stored in a tuple of (data, labels)
     (x_train, y_train), (x_test, y_test) = tf.keras.datasets.fashion_mnist.load_data()
@@ -40,8 +40,8 @@ def main():
                                                num_samples=num_samples)
                     x_values += [num_samples]
                 plt.plot(x_values, accuracy, label=kernel)
-            accuracy.clear()
-            x_values.clear()
+                accuracy.clear()
+                x_values.clear()
         else:
             for i in range(6):
                 num_samples = (i + 1) * 10000
