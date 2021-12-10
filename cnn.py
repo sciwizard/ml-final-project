@@ -31,16 +31,16 @@ def cnn_classifier(train_data, test_data, labels, batch_size=100):
 
 
     model= Sequential([
-    Conv2D(filters=32, kernel_size=3, activation='relu'),
+    Conv2D(filters=32, kernel_size=3, activation='sigmoid'),
     MaxPooling2D(pool_size=2),
     Dropout(0.2),
     Flatten(),
-    Dense(32, activation='relu'),
-    Dense(32, activation='relu'),
+    Dense(32, activation='sigmoid'),
+    Dense(32, activation='sigmoid'),
     Dense(10, activation='softmax')])
 
     tensor_board = TensorBoard(
-        log_dir = r'logs/{}'.format('layers_2_lr_0_0001'),
+        log_dir = r'logs/{}'.format('layers_2_lr_0_1_sigmoid'),
         write_graph=True,
         write_grads = True,
         histogram_freq = 1,

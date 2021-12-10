@@ -57,8 +57,8 @@ def main():
         plt.show()
 
     else:
-        for i in range(4):
-            cnn_classifier((x_train, y_train), (x_test, y_test), labels, batch_size=10 ** i)
+        # for i in range(1):
+        cnn_classifier((x_train, y_train), (x_test, y_test), labels)
 
 
 if __name__ == "__main__":
