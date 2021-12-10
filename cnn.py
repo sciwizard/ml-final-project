@@ -3,6 +3,7 @@ from keras.models import Sequential
 from keras.layers import Conv2D, MaxPooling2D, Dense, Flatten, Dropout
 from tensorflow.keras.optimizers import SGD, Adam
 from keras.callbacks import TensorBoard
+import tensorflow as tf
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -59,12 +60,22 @@ def cnn_classifier(train_data, test_data, labels, batch_size=100, split=0.2):
     #     metrics=['accuracy']
     # )
 
-    model.fit(x_train, y_train, batch_size = batch_size, epochs = 10, 
+    model.fit(x_train, y_train, batch_size = batch_size, epochs = 1,
                 verbose = 1, validation_data=(x_validate, y_validate),
                 callbacks = tensor_board)
-    y_pred = model.predict_classes(test_data)
-    con_mat = tf.math.confusion_matrix(labels=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9], predictions=y_pred).numpy()
-    print(con_mat)
+    y_pred = model.predict(test_data)
+    class_predict = np.zeros(10000)
+    for i in range(len(y_pred)):
+        class_predict[i] = np.argmax(y_pred[i])
+    con_mat = tf.math.confusion_matrix(y_test, class_predict).numpy()
+    plt.matshow(con_mat)
+    plt.xlabel('Actual Label')
+    plt.ylabel('Predicted Label')
+    plt.title('CNN Confusion Matrix')
+    plt.xticks(np.arange(10))
+    plt.yticks(np.arange(10))
+
+    plt.show()
 
     evalulation_score = model.evaluate(x_validate, y_validate, verbose = 0)
 
