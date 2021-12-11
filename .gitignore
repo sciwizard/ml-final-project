@@ -12,6 +12,10 @@ __pycache__
 *.out
 *.toc
 *.fmt
+*.run.xml
+*.blg
+*.bcf
+*.bbl
 
 # Build tool auxiliary files
 *.fdb_latexmk
@@ -22,7 +26,6 @@ __pycache__
 
 # Generated documents
 *.dvi
-*.pdf
 *.1
 
 # Bundle
