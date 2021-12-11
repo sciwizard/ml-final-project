@@ -9,13 +9,28 @@
 
 \begin{document}
 \begin{center}
-{\large \textbf{\textsc{CS-445/545 Machine Learning Final: CNN versus SVM}}}
+{\large \textbf{\textsc{CS-445/545 Machine Learning Final}}}
+
+\bigskip
+
+\large{\textbf{\textsc{CNN versus SVM}}}
 
 \bigskip
 
 \textsc{Will Farris, Ajay Babu Gorantla, Gilbert Grundy, Kuldeep Akbari, Joel Williams}
-\end{center}
 
+\bigskip
+
+https://github.com/sciwizard/ml-final-project
+\end{center}
+\section{Roles}
+\begin{itemize}
+\item \textbf{Joel Williams} - Abstract, introduction, Matplotlib plotting, SVM vs CNN experimentation, LaTeXification
+\item \textbf{Will Farris} - Implemented SVM, wrote up analysis of SVM performance \& conclusion section
+\item \textbf{Ajay Babu Gorantla} - CNN implementation, experimentation, and model analysis
+\item \textbf{Kuldeep Akbari} - Contributed to CNN, analyzed different models, documentation
+\item \textbf{Gilbert Grundy} - Contributed on documentation and SVM, and comparing SVM vs CNN performance
+\end{itemize}
 \section{Abstract}
 
 Machine learning is a notoriously data-hungry field within computer science. Often, the effectiveness of a machine learning program hinges on the volume of data fed into it. Choosing a model which performs well under data constraints, then, can boost a model’s performance when data is scarce. Convolutional neural networks (CNNs) are used by many modern image processing applications to classify images. Support vector machines (SVNs) can also be used, however CNNs tend to be used more commonly. Our research pits CNNs and SVNs against one another, to see which one performs classification better on a subset of the MNIST fashion dataset using various performance metrics. We first optimize a CNN and an SVM by tweaking various hyperparameters, and then compare their relative performance as training data size scales.
@@ -79,11 +94,28 @@ To choose the most performant SVM we compared the relative performance of the fo
 
 \subsection{Results}
 
-\includegraphics[scale=.75]{svmgraph1.PNG} 
+\includegraphics[scale=.75]{svmgraph1.PNG}
+
+\section{CNN versus SVM Analysis}
+
+Our CNN model with the best accuracy was with a learning rate of 0.1, an activation function of tanh, 32 nodes on each hidden layer, and two hidden layers. Our best SVM model was using a RBF kernel. In order to compare the two best models we could come up with, we froze these hyperparameters and retrained/refit both models with increasing training set sizes from 6000, 12000, 24000, 36000, and 48000. The CNN had 10 epochs for each training set size and a batch size of 100. The SVM took the direct training samples.
+
+\subsection{Training set size change}
+
+\includegraphics[scale=.75]{versusgraph1.PNG}
+
+\subsection{Conclusion}
+
+As shown in the figures above, our top-performing CNN outperformed our top-performing SVM across all training data sizes. This suggests that, for the task of image recognition, convolutional neural networks offer better accuracy then support vector machines even when heavily constrained by the size of the training set. This comports with current trends in machine learning, where the CNN has become significantly more popular in recent years than the SVM. It’s important to note that this comparison only took into account the amount of training data, and did not analyze performance relative to inference or training time. In conclusion, our findings suggest that if constrained by the amount of training data, the convolutional neural network offers superior performance relative to the support vector machine per training example.
+
+\includegraphics[scale=.5]{cnnconfusion.PNG}
+\includegraphics[scale=.5]{svmconfusion.PNG}
 
 
+\subsection{Future Scope}
 
+Instead of relying on built in functions from the sklearn library for the SVM’s kernel function, further investigation with custom kernel functions may have allowed for some interesting analysis. Additionally, we may have spent some time using different optimizations algorithms for our CNN, such as Adams, and tried different values for the momentum rate of 0.2, and different weight decay values for which we omitted.
 
-
+\printbibliography
 
 \end{document}
